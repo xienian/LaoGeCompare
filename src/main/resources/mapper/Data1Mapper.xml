@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 必须与对应的 mapper 接口的全路径一致 -->
+<mapper namespace="com.example.laogecompare.mapper.Data1Mapper">
+    <!-- select 标签定义查询操作 -->
+    <select id="selectCompareList" resultType="com.example.laogecompare.entity.Data1">
+        SELECT  t1.${key1}  as value , 'table1' AS source FROM  ${table1} t1
+        WHERE NOT EXISTS (SELECT 1 FROM ${table2} t2 WHERE t2.${key2} =  t1.${key1} )
+        UNION ALL
+        SELECT t2.${key2} as value , 'table2' AS source FROM ${table2} t2
+        WHERE NOT EXISTS (SELECT 1 FROM ${table1} t1 WHERE  t1.${key1}  =  t2.${key2}  )
+        UNION ALL
+        SELECT  distinct t1.${key1}  as value , 'both' AS source FROM ${table1} t1 JOIN ${table2} t2 ON  t2.${key2}  =  t1.${key1}
+    </select>
+
+
+</mapper>
